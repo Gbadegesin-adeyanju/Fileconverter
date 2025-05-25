@@ -1,0 +1,44 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static "converter_app\css\style.css" %}">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+    
+
+    <title>Image to Text Converter</title>
+
+    <script>
+        function hideCameraInput() {
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (!isMobile) {
+                document.getElementById('cameraInput').style.display = 'none';
+            }
+        }
+        window.onload = hideCameraInput;
+    </script>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data" class="">
+        {% csrf_token %}
+        <input type="email" name="email" placeholder="Your Email">
+        <button type="submit">Subscribe</button>
+      </form>
+    </form>
+
+   <p>{{ text }}</p> 
+
+
+
+    
+</body>
+</html>

@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Converter- DevCrew</title>
+    <link rel="stylesheet" href="{% static 'converter_app/css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Teko:wght@300..700&display=swap" rel="stylesheet">
+  </head>
+<body>
+  <div  class="body"> <section id="home"></section>
+    <div class="navigation">
+    <div class="devCrew"> devcrew</div>
+    <div class="converters">
+      <p><a href="#imgt">IMG - TXT</a></p>
+      <p><a href="#pdfd">PDF - DOC</a></p>
+      <p><a href="#imgd">AUDIO - TXT</a></p>
+
+    </div>
+    </div>
+    <div class="pageInfo" style="color: white;"> 
+      <h1 style="margin-top: 50px;"> File conversion made easy</h1>
+      <h5>Extract text from images and convert images <br> and PDF to .docx format </h5>
+    </div>
+    <div class="firstCon"> <section id="imgt"></section>
+      <p class="imgText" > Image to Text</p>
+      <div class="conOne">
+        <div class="containerr">
+          <div class="one">1</div>
+          <div class="empty"></div>
+          <div class="two">2</div>
+        </div>
+          <form id="img-form"  method="post" enctype="multipart/form-data" class="">
+            {% csrf_token %}
+            <div style="display:flex; flex-direction: column; gap: 10px;">
+              <input id="file-upload-img" class="file-input"  type="file" name="image" accept="image/png, image/jpeg">
+              <label for="file-upload-img" class="file-upload">Click to Upload a File</label>
+              <input type="file" id="cameraInput" accept="image/*" capture="camera"  class="open-camera" />
+              <label for="cameraInput" class="file-upload">Click to take a Picture</label>
+            </div>
+            
+            <button id="convertNow" type="submit" class="img-txt-btn">Convert</button>
+            <div class="img-error-container">
+              {% if errori_message %}
+              <p>
+                  {{ errori_message }}
+              </p>
+              {% endif %} 
+            </div>
+          </form>  
+
+          <div class="img-txt">
+            <div class="img-txt-container">
+                {% if image_text %}
+                <p>
+                    <button class="close-btn">&times;</button>
+                    {{ image_text }}
+                </p>
+                {% endif %}
+                <button class="copy-button">Copy Text</button> 
+            </div>
+            <!-- Add spinner for img-txt -->
+            <div class="spinner" id="img-spinner" style="display: none;">
+                <div class="loader"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+    
+  
+    <div>  <section id="pdfd"></section>
+      <p class="pdf">PDF to .docx</p>
+      <div class="conOne">
+          <div class="containerr">
+            <div class="one">1</div>
+            <div class="empty"></div>
+            <div class="two">2</div>
+          </div>  
+          <form id="pdf-form"  method="post" enctype="multipart/form-data" class="">
+            {% csrf_token %}
+            <input id="file-upload-pdf" class="file-input"  type="file" name="pdf" accept="pdf/*">
+            <label for="file-upload-pdf" class="file-upload">Click to Upload a File</label>
+            <button id="convertPdf" type="submit">Convert</button>
+          </form>  
+      </div>    
+      <div class="pdf-error-container">
+        {% if errorp_message %}
+        <p>
+            {{ errorp_message }}
+        </p>
+        {% endif %}
+      <div style="padding-bottom: 70px;">  <section id="imgd"></section>
+        <p class="pdf">Audio to Text</p>
+        <div class="conOne">
+            <div class="containerr">
+              <div class="one">1</div>
+              <div class="empty"></div>
+              <div class="two">2</div>
+            </div>
+            <form id="audio-form"  method="post" enctype="multipart/form-data" class="">
+              {% csrf_token %}
+              <input id="file-upload-audio" class="file-input"  type="file" name="audio" accept="audio/*">
+              <label for="file-upload-audio" class="file-upload">Click to Upload a File</label>
+              <button id="convertNow" type="submit" class="audio-txt-btn">Convert</button>
+            </form>   
+        </div>    
+      </div>
+      {{ audio_text }}
+
+      <div class="audio-txt">
+        <div class="audio-txt-container">
+            {% if audio_text %}
+            <p>
+                <button class="close-btn2">&times;</button>
+                {{ audio_text }}
+            </p>
+            {% endif %}
+            <button class="copy-button">Copy Text</button> 
+        </div>
+        <!-- Add spinner for audio-txt -->
+        <div class="spinner" id="audio-spinner" style="display: none;">
+            <div class="loader"></div>
+        </div>
+    </div>
+    </div>
+  </div> 
+  <div class="lastSec">
+    <P class="whyChoose">Why choose devcrew file converter?</P>
+    <div class="lastSecContainer">
+      <div class="emptyy">
+        <svg class="my-svg-class" xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16" style="padding: 10px 0px 0px 10px; color:white;">
+        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.56.56 0 0 0-.163-.505L1.71 6.745l4.052-.576a.53.53 0 0 0 .393-.288L8 2.223l1.847 3.658a.53.53 0 0 0 .393.288l4.052.575-2.906 2.77a.56.56 0 0 0-.163.506l.694 3.957-3.686-1.894a.5.5 0 0 0-.461 0z"/>
+        </svg>
+      </div>
+      <div>
+        <p class="convenience" >Convenience</p>
+      </div>
+      <div>
+        <p style="font-weight: bolder;">Very easy and staright forward. Just select your <br> file and convert right away.</p>
+      </div>
+    </div>
+  </div>
+  <div class="lastSec">
+    <div class="lastSecContainer">
+      <div class="emptyy speed-icon">
+        <svg  class="my-svg-class" xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-stopwatch" viewBox="0 0 16 16" style="padding: 10px 0px 0px 10px; color:white;">
+          <path d="M8.5 5.6a.5.5 0 1 0-1 0v2.9h-3a.5.5 0 0 0 0 1H8a.5.5 0 0 0 .5-.5z"/>
+          <path d="M6.5 1A.5.5 0 0 1 7 .5h2a.5.5 0 0 1 0 1v.57c1.36.196 2.594.78 3.584 1.64l.012-.013.354-.354-.354-.353a.5.5 0 0 1 .707-.708l1.414 1.415a.5.5 0 1 1-.707.707l-.353-.354-.354.354-.013.012A7 7 0 1 1 7 2.071V1.5a.5.5 0 0 1-.5-.5M8 3a6 6 0 1 0 .001 12A6 6 0 0 0 8 3"/>
+        </svg>
+      </div>
+      <div class="speed">
+        <p class="convenience">Speed</p>
+      </div>
+      <div class="speed-p-div">
+        <p class="speed-p" style="font-weight: bolder;">We aim to complete all our conversion in <br> under 10 minutes</p>
+      </div>
+    </div>
+  </div>
+  <div class="lastSec" style="padding-bottom: 70px;">
+    <div class="lastSecContainer">
+      <div class="emptyy formats-icon">
+        <svg class="my-svg-class" xmlns="http://www.w3.org/2000/svg" width="20" height="16" fill="currentColor" class="bi bi-file-earmark-text" viewBox="0 0 16 16" style="padding: 10px 0px 0px 10px; color:white;" >
+          <path d="M5.5 7a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zM5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5"/>
+          <path d="M9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.5zm0 1v2A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1z"/>
+        </svg>
+      </div>
+      <div class="format">
+        <p class="convenience">Formats</p>
+      </div>
+      <div>
+        <p class="last-p" style="font-weight: bolder;">We support 2+ file formats</p>
+      </div>
+    </div>
+  </div>
+  <footer class="my-footer-class" style="background-color: black;">
+    <div class="footer">
+      <h5 style="color: white; font-size: 12px;">Subscribe to our email news letter</h5>
+      <form id="email-form" action="" >
+        {% csrf_token %}
+        <input class="email-input" type="email" name="email" placeholder="Your Email" >
+        <button class="footer-btn" type="submit">Subscribe</button>
+      </form>
+      <div class="footerCon">
+        <div> <a href="#home">Home</a> </div>
+        <div> <a href="#imgt">IMG to TXT</a> </div>
+        <div> <a href="#pdfd">PDF to .docx</a> </div>
+        <div> <a href="#imgd">Audio to TXT</a> </div>
+      </div>
+      <div class="icons">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+          </svg>
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-youtube" viewBox="0 0 16 16">
+            <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.01 2.01 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.01 2.01 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31 31 0 0 1 0 7.68v-.123c.002-.215.01-.958.064-1.778l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.01 2.01 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A100 100 0 0 1 7.858 2zM6.4 5.209v4.818l4.157-2.408z"/>
+          </svg>
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-twitter-x" viewBox="0 0 16 16">
+            <path d="M12.6.75h2.454l-5.36 6.142L16 15.25h-4.937l-3.867-5.07-4.425 5.07H.316l5.733-6.57L0 .75h5.063l3.495 4.633L12.601.75Zm-.86 13.028h1.36L4.323 2.145H2.865z"/>
+          </svg>
+        </div>
+      </div>
+      <p style="color: white;">Copyright @ 2024, All rights reserved</p>
+    </div>
+  </footer>
+
+
+
+
+  
+</body>
+<script src="{% static "converter_app/js/script.js" %}"></script>
+</html>
