@@ -3,9 +3,6 @@
 # Create vitual environment
 python -m venv venv_name
 
-# Root directory
-cd docconverter
-
 # Activate virtual environmemnt
 # Mac OS
 source venv_name/bin/activate
